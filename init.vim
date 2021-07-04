@@ -1,8 +1,8 @@
 set number
+set relativenumber
 syntax on
 set nocompatible
 set background=dark
-colorscheme solarized8
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set tabstop=4
@@ -11,8 +11,18 @@ set autoindent
 set shiftwidth=4
 set cindent
 
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+	silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+				\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+if empty(glob('~/.config/nvim/plugged/wildfire.vim/autoload/wildfire.vim'))
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 filetype off                   "必须"
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
@@ -384,6 +394,3 @@ let g:vista#renderer#icons = {
 			\   "variable": "\uf71b",
 			\  }
 nnoremap <silent><nowait> <space>m :<C-u>Vista!!<cr>
-
-let g:tagbar_width=30
-nnoremap <silent> <F4> :TagbarToggle<CR> " 将tagbar的开关按键设置为 F4
